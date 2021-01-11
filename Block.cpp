@@ -1,4 +1,4 @@
-#include "Block.h"
+п»ї#include "Block.h"
 #include <iostream>
 
 using namespace std;
@@ -24,16 +24,16 @@ Block::Block(vector<string> DataString, int BlockCount)
 	BlockCountGroup = 0;
 	ResParCount = 0;
 	Enabled = true;
-	BlockName = "Блок 1";
-	BlockType = 0;     // 1-линия; 2-трансформатор 2-х обм.; 3-трансформатор 3-х обм.
+	BlockName = "Р‘Р»РѕРє 1";
+	BlockType = 0;     // 1-Р»РёРЅРёСЏ; 2-С‚СЂР°РЅСЃС„РѕСЂРјР°С‚РѕСЂ 2-С… РѕР±Рј.; 3-С‚СЂР°РЅСЃС„РѕСЂРјР°С‚РѕСЂ 3-С… РѕР±Рј.
 	BlockNodeNum = 0;
 
-	//Сюда добавляем считывание данных
+	//РЎСЋРґР° РґРѕР±Р°РІР»СЏРµРј СЃС‡РёС‚С‹РІР°РЅРёРµ РґР°РЅРЅС‹С…
 	//BlockNodeNum = 1;
 	//BlockIndex = 0;
 	//BlockType = 0;
 	//BlockCountGroup = 0;
-	FillData(DataString);			//TO DO разобраться что там вообще делаться должно
+	FillData(DataString);			//TO DO СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ С‡С‚Рѕ С‚Р°Рј РІРѕРѕР±С‰Рµ РґРµР»Р°С‚СЊСЃСЏ РґРѕР»Р¶РЅРѕ
 	FillArgumentList();
 }
 
