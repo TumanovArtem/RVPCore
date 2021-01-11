@@ -1,4 +1,4 @@
-#include "Channel.h"
+п»ї#include "Channel.h"
 #include <vector>
 #include <string>
 
@@ -6,8 +6,8 @@ using namespace std;
 
 extern double Omega;
 extern double PI;
-extern double Step; //Шаг расчета в радианах
-extern int CurrentStep; //Номер текущего шага
+extern double Step; //РЁР°Рі СЂР°СЃС‡РµС‚Р° РІ СЂР°РґРёР°РЅР°С…
+extern int CurrentStep; //РќРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ С€Р°РіР°
 
 Channel::Channel()
 {
@@ -26,7 +26,7 @@ Channel::~Channel()
 
 }
 
-//Нахождение дискретного числа шагов умещающегося во время пробега волны
+//РќР°С…РѕР¶РґРµРЅРёРµ РґРёСЃРєСЂРµС‚РЅРѕРіРѕ С‡РёСЃР»Р° С€Р°РіРѕРІ СѓРјРµС‰Р°СЋС‰РµРіРѕСЃСЏ РІРѕ РІСЂРµРјСЏ РїСЂРѕР±РµРіР° РІРѕР»РЅС‹
 void Channel::StepsInWaveMove(double WaveLength, double R, double L)
 {
 	double Delta;
@@ -37,24 +37,24 @@ void Channel::StepsInWaveMove(double WaveLength, double R, double L)
 	NumOfSteps = StepsCol;
 
 	//TO DO
-	// Предупреждение если меньше 1 Уменьшите шаг.
+	// РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РµСЃР»Рё РјРµРЅСЊС€Рµ 1 РЈРјРµРЅСЊС€РёС‚Рµ С€Р°Рі.
 	//if (NumOfSteps < 1)
-		/*Warning("Для заданной длины линии\n необходимо уменьшить шаг расчета "
+		/*Warning("Р”Р»СЏ Р·Р°РґР°РЅРЅРѕР№ РґР»РёРЅС‹ Р»РёРЅРёРё\n РЅРµРѕР±С…РѕРґРёРјРѕ СѓРјРµРЅСЊС€РёС‚СЊ С€Р°Рі СЂР°СЃС‡РµС‚Р° "
 			+ IntToStr(CurrentStep), 3);*/
 
 	Delta = (R * Step / (2 * Omega * L * 0.001));
 
-	AttenFactor = (1 / (1 + Delta));  // Коэффициент затухания (приломления)
-	ReflFactor = Delta / (1 + Delta);  //Коэффициент отражения
+	AttenFactor = (1 / (1 + Delta));  // РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°С‚СѓС…Р°РЅРёСЏ (РїСЂРёР»РѕРјР»РµРЅРёСЏ)
+	ReflFactor = Delta / (1 + Delta);  //РљРѕСЌС„С„РёС†РёРµРЅС‚ РѕС‚СЂР°Р¶РµРЅРёСЏ
 }
 
-//Первоначальное заполнение списка прямых и обратных волн
+//РџРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕРµ Р·Р°РїРѕР»РЅРµРЅРёРµ СЃРїРёСЃРєР° РїСЂСЏРјС‹С… Рё РѕР±СЂР°С‚РЅС‹С… РІРѕР»РЅ
 void Channel::FillVList(double ValueRez)
 {
 	int i;
 	double ValueRef;
 
-	try  // проверка исключения bad_alloc
+	try  // РїСЂРѕРІРµСЂРєР° РёСЃРєР»СЋС‡РµРЅРёСЏ bad_alloc
 	{
 		for (i = 0; i <= NumOfSteps; i++)
 		{
@@ -66,12 +66,12 @@ void Channel::FillVList(double ValueRez)
 	catch (std::bad_alloc)
 	{
 		/*cout << "Could not allocate. Bye ...";
-		Warning("Ошибка создания канала линии с " + IntToStr(NumOfSteps) + "ячейками", 1);*/
+		Warning("РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ РєР°РЅР°Р»Р° Р»РёРЅРёРё СЃ " + IntToStr(NumOfSteps) + "СЏС‡РµР№РєР°РјРё", 1);*/
 		exit(-1);
 	}
 }
 
-//Вторичное заполнение списка прямых и обратных волн
+//Р’С‚РѕСЂРёС‡РЅРѕРµ Р·Р°РїРѕР»РЅРµРЅРёРµ СЃРїРёСЃРєР° РїСЂСЏРјС‹С… Рё РѕР±СЂР°С‚РЅС‹С… РІРѕР»РЅ
 void Channel::NextFillVList(double ValueRez)
 {
 	int i;
@@ -82,7 +82,7 @@ void Channel::NextFillVList(double ValueRez)
 	}
 }
 
-//"Продергивание" волны
+//"РџСЂРѕРґРµСЂРіРёРІР°РЅРёРµ" РІРѕР»РЅС‹
 void Channel::ChannelWaveMove(double Ubegin, double Uend)
 {
 	int i;
@@ -110,7 +110,7 @@ void Channel::ChannelWaveMove(double Ubegin, double Uend)
 	}
 }
 //---------------------------------------------------------------------------
-// Функция определения составляющей тока в узле
+// Р¤СѓРЅРєС†РёСЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ СЃРѕСЃС‚Р°РІР»СЏСЋС‰РµР№ С‚РѕРєР° РІ СѓР·Р»Рµ
 double Channel::GetV(bool ChannelBeging)
 {
 	double V;
@@ -123,14 +123,14 @@ double Channel::GetV(bool ChannelBeging)
 	return(V);
 }
 //---------------------------------------------------------------------------
-// Удаление канала
+// РЈРґР°Р»РµРЅРёРµ РєР°РЅР°Р»Р°
 void Channel::ChannelClear()
 {
 	VForwardList.clear();
 	VBackwardList.clear();
 }
 //---------------------------------------------------------------------------
-// Получение волны на шаге для вывода на график
+// РџРѕР»СѓС‡РµРЅРёРµ РІРѕР»РЅС‹ РЅР° С€Р°РіРµ РґР»СЏ РІС‹РІРѕРґР° РЅР° РіСЂР°С„РёРє
 double Channel::GetVForGraf()
 {
 	double V;

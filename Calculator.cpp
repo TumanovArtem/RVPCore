@@ -1,4 +1,4 @@
-#include "Calculator.h"
+п»ї#include "Calculator.h"
 extern Model* MyModel;
 
 extern double Omega;
@@ -17,7 +17,7 @@ extern int CountTime;
 Calculator::Calculator()
 {
 
-	/*Определение всех констант. Значения по умолчанию должны быть предусмотрены*/
+	/*РћРїСЂРµРґРµР»РµРЅРёРµ РІСЃРµС… РєРѕРЅСЃС‚Р°РЅС‚. Р—РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅС‹*/
 
 	NewFloatCount = 0;
 	SwitchEvent = 0;
@@ -43,8 +43,8 @@ void Calculator::Calculate()
 		MyModel->ResStep = 1;
 		MyModel->FindZ();
 
-		// Организация заполнение и сортировка списка коммутационных событий
-		/*for (i = 0; i < MyModel->EventList.size(); i++) //Очистка списка событий
+		// РћСЂРіР°РЅРёР·Р°С†РёСЏ Р·Р°РїРѕР»РЅРµРЅРёРµ Рё СЃРѕСЂС‚РёСЂРѕРІРєР° СЃРїРёСЃРєР° РєРѕРјРјСѓС‚Р°С†РёРѕРЅРЅС‹С… СЃРѕР±С‹С‚РёР№
+		/*for (i = 0; i < MyModel->EventList.size(); i++) //РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° СЃРѕР±С‹С‚РёР№
 			delete MyModel->EventList[i];
 		MyModel->EventList.clear();*/
 
@@ -54,39 +54,39 @@ void Calculator::Calculate()
 		for (i = 1; i <= MyModel->BranchCount; i++)
 			if (MyModel->BranchList[i]->Enabled)
 			{
-				MyModel->BranchList[i]->FillEvent();  //Заполнение событий
-				MyModel->BranchList[i]->FindBaseValue();  //Запись базисного значения тока ветвей
-				MyModel->BranchList[i]->InitialConditions(FirstCount); // Заполнение начальных условий
+				MyModel->BranchList[i]->FillEvent();  //Р—Р°РїРѕР»РЅРµРЅРёРµ СЃРѕР±С‹С‚РёР№
+				MyModel->BranchList[i]->FindBaseValue();  //Р—Р°РїРёСЃСЊ Р±Р°Р·РёСЃРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ С‚РѕРєР° РІРµС‚РІРµР№
+				MyModel->BranchList[i]->InitialConditions(FirstCount); // Р—Р°РїРѕР»РЅРµРЅРёРµ РЅР°С‡Р°Р»СЊРЅС‹С… СѓСЃР»РѕРІРёР№
 			}
 
 		MyModel->SortEventsList(-1);
 
-		MyModel->ResultList.clear();//Очистка списка результатов
+		MyModel->ResultList.clear();//РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
 
-		// Заполнение списка рез.параметров
+		// Р—Р°РїРѕР»РЅРµРЅРёРµ СЃРїРёСЃРєР° СЂРµР·.РїР°СЂР°РјРµС‚СЂРѕРІ
 		for (j = 0; j < MyModel->BlockList.size(); j++)
 			for (i = 0; i < MyModel->BlockList[j]->ResBlockList.size(); i++)
 			{
-				MyModel->ResultList.push_back(new Result("U_1"/*MyModel->BlockList[j]->ResBlockList*/));	//TO DO разобраться с ResBlockList (Block->FillDataFromFile)
-				//CWForm->ComboBox1->Items->Add(((Block*)MyModel->BlockList->Items[j])->ResBlockList->Strings[i]);      //Заполнение в форме вывода доп. параметров на график.
+				MyModel->ResultList.push_back(new Result("U_1"/*MyModel->BlockList[j]->ResBlockList*/));	//TO DO СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ СЃ ResBlockList (Block->FillDataFromFile)
+				//CWForm->ComboBox1->Items->Add(((Block*)MyModel->BlockList->Items[j])->ResBlockList->Strings[i]);      //Р—Р°РїРѕР»РЅРµРЅРёРµ РІ С„РѕСЂРјРµ РІС‹РІРѕРґР° РґРѕРї. РїР°СЂР°РјРµС‚СЂРѕРІ РЅР° РіСЂР°С„РёРє.
 			}
 
-		//ToComtrade->Enabled = true; // Пункт меню экспорта в Comtrade
+		//ToComtrade->Enabled = true; // РџСѓРЅРєС‚ РјРµРЅСЋ СЌРєСЃРїРѕСЂС‚Р° РІ Comtrade
 
-		//-----------------------------Цикл рассчета------------------------------------//
+		//-----------------------------Р¦РёРєР» СЂР°СЃСЃС‡РµС‚Р°------------------------------------//
 		for (i = 1; i <= StepNum; i++)
 		{
 			CurrentStep = i;
-			CurrentTime = CurrentStep * StepMks * 0.000001; // Время с начала расчета в секундах (необходимо для преобразователя)
+			CurrentTime = CurrentStep * StepMks * 0.000001; // Р’СЂРµРјСЏ СЃ РЅР°С‡Р°Р»Р° СЂР°СЃС‡РµС‚Р° РІ СЃРµРєСѓРЅРґР°С… (РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЏ)
 
 			if ((SteadyStateTime != 0) && (SteadyStateTime > CurrentStep * StepMks))
-				EmFactor = sqrt((CurrentStep * StepMks + 1) / SteadyStateTime); //Установление режима
+				EmFactor = sqrt((CurrentStep * StepMks + 1) / SteadyStateTime); //РЈСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЂРµР¶РёРјР°
 			else
 			{
 				EmFactor = 1;
 			}
 
-			//Проверка коммутации фаз
+			//РџСЂРѕРІРµСЂРєР° РєРѕРјРјСѓС‚Р°С†РёРё С„Р°Р·
 			/*if ((MyModel->EventList.size() > 0) && (MyModel->EventList.size() > SwitchEvent))
 				if (1000 * (MyModel->EventList[SwitchEvent])->EventTime / StepMks <= i)
 				{
@@ -95,7 +95,7 @@ void Calculator::Calculate()
 					else
 					{
 						if (((Event*)MyModel->EventList[SwitchEvent])->EventTime >= CurrentStep * StepMks)
-							MyModel->SortEventsList(SwitchEvent); // пересортировка в случае повторной попытки отключения
+							MyModel->SortEventsList(SwitchEvent); // РїРµСЂРµСЃРѕСЂС‚РёСЂРѕРІРєР° РІ СЃР»СѓС‡Р°Рµ РїРѕРІС‚РѕСЂРЅРѕР№ РїРѕРїС‹С‚РєРё РѕС‚РєР»СЋС‡РµРЅРёСЏ
 					}
 				}
 			*/
@@ -103,7 +103,7 @@ void Calculator::Calculate()
 			ErrText = MyModel->FindU();
 
 			if (ErrText != "")
-				cout << ErrText;	//Переписать на нормальный Try/Catch или что-то такое
+				cout << ErrText;	//РџРµСЂРµРїРёСЃР°С‚СЊ РЅР° РЅРѕСЂРјР°Р»СЊРЅС‹Р№ Try/Catch РёР»Рё С‡С‚Рѕ-С‚Рѕ С‚Р°РєРѕРµ
 				//Warning(ErrText, 1);
 
 		}
@@ -111,11 +111,11 @@ void Calculator::Calculate()
 		FirstCount = false;
 	}
 
-	//Вывод результата пока здесь
-	int ParNum = 0; //Костыль, должно быть выводимое значение
-	vector<double> P;	//Результат расчета
-	double GrafTime;	//Время для графика
-	for (j = 1; j <= StepNum / ResMultiple ; j++)   //цикл по кол-ву шагов
+	//Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р° РїРѕРєР° Р·РґРµСЃСЊ
+	int ParNum = 0; //РљРѕСЃС‚С‹Р»СЊ, РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РІС‹РІРѕРґРёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ
+	vector<double> P;	//Р РµР·СѓР»СЊС‚Р°С‚ СЂР°СЃС‡РµС‚Р°
+	double GrafTime;	//Р’СЂРµРјСЏ РґР»СЏ РіСЂР°С„РёРєР°
+	for (j = 1; j <= StepNum / ResMultiple; j++)   //С†РёРєР» РїРѕ РєРѕР»-РІСѓ С€Р°РіРѕРІ
 	{
 		GrafTime = j * ResMultiple * Step * 1000 / Omega;
 		P = MyModel->ResultList[ParNum]->GetParametr(j);

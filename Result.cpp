@@ -1,14 +1,14 @@
-#include "Result.h"
+п»ї#include "Result.h"
 #include "Model.h"
 
 extern Model* MyModel;
-//Конструктор 1
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 1
 Result::Result()
 {
 
 }
 
-//Конструктор 2
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 2
 Result::Result(string Parametr)
 {
 	int i;//, BegingNodeIndex, EndNodeIndex;
@@ -31,12 +31,12 @@ Result::Result(string Parametr)
 	DataList.push_back(aDataList);
 	DataList.push_back(bDataList);
 
-	ParametrName = Parametr;  // имя параметра
+	ParametrName = Parametr;  // РёРјСЏ РїР°СЂР°РјРµС‚СЂР°
 
 	for (i = Parametr.size(); i > 0; i--)
 		if (Parametr[i] == 95) // "_"
 		{
-			/*if ((Parametr.size() - i > 1) && (int(Parametr[i - 2]) != 32)) //" " Непонятно зачем
+			/*if ((Parametr.size() - i > 1) && (int(Parametr[i - 2]) != 32)) //" " РќРµРїРѕРЅСЏС‚РЅРѕ Р·Р°С‡РµРј
 				ParametrType = Parametr[i - 2];*/
 			ParametrType += Parametr[i - 1];
 			ParametrOwner = stoi(Parametr.substr(i + 1, Parametr.size()));
@@ -81,27 +81,27 @@ Result::Result(string Parametr)
 			BaseParametr = 0.001;
 		}
 
-		if (ParametrType == "Uв") // Падение напряжения на ветви
+		if (ParametrType == "UРІ") // РџР°РґРµРЅРёРµ РЅР°РїСЂСЏР¶РµРЅРёСЏ РЅР° РІРµС‚РІРё
 		{
 			ParametrCode = 7;
 			BaseParametr = MyModel->BranchList[ParametrOwner]->Ibase;
 		}
 
-		if (ParametrType == "Iн") //Ток начала линии
+		if (ParametrType == "IРЅ") //РўРѕРє РЅР°С‡Р°Р»Р° Р»РёРЅРёРё
 		{
 			ParametrCode = 8;
 			BaseParametr = MyModel->BranchList[ParametrOwner]->Ibase;
 			Ifactor = 1000;
 		}
 
-		if (ParametrType == "Iк") //Ток конца линии
+		if (ParametrType == "IРє") //РўРѕРє РєРѕРЅС†Р° Р»РёРЅРёРё
 		{
 			ParametrCode = 9;
 			BaseParametr = MyModel->BranchList[ParametrOwner]->Ibase;
 			Ifactor = 1000;
 		}
 
-		if (ParametrType == "V") //Волны в линии
+		if (ParametrType == "V") //Р’РѕР»РЅС‹ РІ Р»РёРЅРёРё
 		{
 			ParametrCode = 3;
 			//BaseParametr = 1;
@@ -111,7 +111,7 @@ Result::Result(string Parametr)
 	}
 }
 
-//Деструктор
+//Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 Result::~Result()
 {
 	aDataList.clear();
@@ -121,7 +121,7 @@ Result::~Result()
 }
 /*
 //---------------------------------------------------------------------------
-//Поиск максимального и минимального значения параметра
+//РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Рё РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РїР°СЂР°РјРµС‚СЂР°
 void Result::FindMaxMin()
 {
 	int i;
@@ -142,7 +142,7 @@ void Result::FindMaxMin()
 }
 */
 //---------------------------------------------------------------------------
-//Передача параметра из архива
+//РџРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂР° РёР· Р°СЂС…РёРІР°
 vector<double> Result::GetParametr(int StepN)
 {
 	vector<double> P;
@@ -150,7 +150,7 @@ vector<double> Result::GetParametr(int StepN)
 	if (StepN > 0)
 		for (i = 0; i < 3; i++)
 			P.push_back(DataList[i][StepN]);
-	/*else // для вызова последнего параметра (вывод параметра во время расчета)
+	/*else // РґР»СЏ РІС‹Р·РѕРІР° РїРѕСЃР»РµРґРЅРµРіРѕ РїР°СЂР°РјРµС‚СЂР° (РІС‹РІРѕРґ РїР°СЂР°РјРµС‚СЂР° РІРѕ РІСЂРµРјСЏ СЂР°СЃС‡РµС‚Р°)
 		for (i = 0; i < 3; i++)
 			P[i] = DataList[i][DataList[i].size()];
 	*/

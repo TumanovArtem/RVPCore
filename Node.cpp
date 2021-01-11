@@ -1,4 +1,4 @@
-#include "Node.h"
+п»ї#include "Node.h"
 #include "Phase.h"
 #include "Model.h"
 #include "Branch.h"
@@ -8,13 +8,13 @@ using namespace std;
 extern double Epsilon;
 extern Model* MyModel;
 
-//Конструктор 1
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 1
 Node::Node()
 {
 	NodeNum = 0;
 }
 
-//Конструктор 2
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 2
 Node::Node(int Number, double VoltageClass, int BranchNum, int PhaseCount, int Index)
 {
 	NodeNum = Number;
@@ -23,11 +23,11 @@ Node::Node(int Number, double VoltageClass, int BranchNum, int PhaseCount, int I
 
 	PhaseNum = PhaseCount;
 
-	BranchesInNode.reserve(20);		//Резервируем 20 ячеек
+	BranchesInNode.reserve(20);		//Р РµР·РµСЂРІРёСЂСѓРµРј 20 СЏС‡РµРµРє
 
-	Ubase = (VoltageClass * sqrt((double)2/(double)3));
+	Ubase = (VoltageClass * sqrt((double)2 / (double)3));
 
-	if (NodeNum != 0)			//Для исключения нулевого узла из расчета
+	if (NodeNum != 0)			//Р”Р»СЏ РёСЃРєР»СЋС‡РµРЅРёСЏ РЅСѓР»РµРІРѕРіРѕ СѓР·Р»Р° РёР· СЂР°СЃС‡РµС‚Р°
 		NodeNextCount = true;
 	else
 		NodeNextCount = false;
@@ -35,14 +35,14 @@ Node::Node(int Number, double VoltageClass, int BranchNum, int PhaseCount, int I
 	Zwavef = Zwavem = 0;
 
 	Phase* p;
-	PhaseList.reserve(3);			//Резервируем 3 ячейки
-	for (i = 0; i < PhaseNum; i++)	//Создание пустых экземпляторов объектов фаз
-	{		
-		PhaseList.push_back(p = new Phase());	
+	PhaseList.reserve(3);			//Р РµР·РµСЂРІРёСЂСѓРµРј 3 СЏС‡РµР№РєРё
+	for (i = 0; i < PhaseNum; i++)	//РЎРѕР·РґР°РЅРёРµ РїСѓСЃС‚С‹С… СЌРєР·РµРјРїР»СЏС‚РѕСЂРѕРІ РѕР±СЉРµРєС‚РѕРІ С„Р°Р·
+	{
+		PhaseList.push_back(p = new Phase());
 	}
 }
 
-//Деструктор
+//Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 Node::~Node()
 {
 	PhaseList.clear();
@@ -51,7 +51,7 @@ Node::~Node()
 
 void Node::InitialConditions()
 {
-	for (i = 0; i < PhaseNum; i++) 
+	for (i = 0; i < PhaseNum; i++)
 	{
 		PhaseList[i]->Isum = 0;
 		PhaseList[i]->Uxx = 0;
@@ -67,9 +67,9 @@ void Node::FindNodeU()
 	for (i = 0; i < PhaseNum; i++)
 	{
 		Jsum[i] = 0;
-		PhaseList[i]->IsumPast = PhaseList[i]->Isum;	//Суммарный ток узла в начале шага
+		PhaseList[i]->IsumPast = PhaseList[i]->Isum;	//РЎСѓРјРјР°СЂРЅС‹Р№ С‚РѕРє СѓР·Р»Р° РІ РЅР°С‡Р°Р»Рµ С€Р°РіР°
 		PhaseList[i]->Upast = PhaseList[i]->U;
-		PhaseList[i]->UxxPast = PhaseList[i]->Uxx;	//Uxx включает начальные условия
+		PhaseList[i]->UxxPast = PhaseList[i]->Uxx;	//Uxx РІРєР»СЋС‡Р°РµС‚ РЅР°С‡Р°Р»СЊРЅС‹Рµ СѓСЃР»РѕРІРёСЏ
 	}
 
 	for (j = 0; j < BranchesInNode.size(); j++)
@@ -77,11 +77,11 @@ void Node::FindNodeU()
 		BranchIndex = BranchesInNode[j];
 		if ((MyModel->BranchList[BranchIndex]->ElementType <= 3) && !(MyModel->BranchList[BranchIndex]->Virtual))
 		{
-			if (MyModel->BranchList[BranchIndex]->Enabled) 
+			if (MyModel->BranchList[BranchIndex]->Enabled)
 			{
 				MyModel->BranchList[BranchIndex]->FindNodeI(NodeIndex, J);
 			}
-			for (i = 0; i < PhaseNum; i++) 
+			for (i = 0; i < PhaseNum; i++)
 			{
 				Jsum[i] += J[i];
 			}
@@ -104,7 +104,7 @@ void Node::FindNodeZ()
 		G[i] = 0; Ywave[i] = 0;
 	}
 
-	for (j = 0; j < BranchesInNode.size(); j++)   // цикл по кол-ву ветвей, подсоединенных к узлу.
+	for (j = 0; j < BranchesInNode.size(); j++)   // С†РёРєР» РїРѕ РєРѕР»-РІСѓ РІРµС‚РІРµР№, РїРѕРґСЃРѕРµРґРёРЅРµРЅРЅС‹С… Рє СѓР·Р»Сѓ.
 	{
 		BranchIndex = BranchesInNode[j];
 		if ((MyModel->BranchList[BranchIndex]->ElementType <= 3) && !(MyModel->BranchList[BranchIndex]->Virtual))
@@ -112,17 +112,17 @@ void Node::FindNodeZ()
 			MyModel->BranchList[BranchIndex]->GetBranchG(G); //TO DO
 
 			for (i = 0; i < PhaseNum; i++)
-				Ywave[i] += G[i];		//Вычисление суммарной волновой проводимости узла
+				Ywave[i] += G[i];		//Р’С‹С‡РёСЃР»РµРЅРёРµ СЃСѓРјРјР°СЂРЅРѕР№ РІРѕР»РЅРѕРІРѕР№ РїСЂРѕРІРѕРґРёРјРѕСЃС‚Рё СѓР·Р»Р°
 		}
 	}
 
 	for (i = 0; i < PhaseNum; i++)
-		PhaseList[i]->Zwave = 1 / Ywave[i];	//Суммарное волновое сопротивление узла
+		PhaseList[i]->Zwave = 1 / Ywave[i];	//РЎСѓРјРјР°СЂРЅРѕРµ РІРѕР»РЅРѕРІРѕРµ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ СѓР·Р»Р°
 
 	if (PhaseNum != 1)
 	{
-		Zwavef = (2 * PhaseList[1]->Zwave + PhaseList[0]->Zwave) / 3; //Фазное волновое сопротивление узла
-		Zwavem = (PhaseList[0]->Zwave - PhaseList[1]->Zwave) / 3; //Междуфазное волновое сопротивление узла
+		Zwavef = (2 * PhaseList[1]->Zwave + PhaseList[0]->Zwave) / 3; //Р¤Р°Р·РЅРѕРµ РІРѕР»РЅРѕРІРѕРµ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ СѓР·Р»Р°
+		Zwavem = (PhaseList[0]->Zwave - PhaseList[1]->Zwave) / 3; //РњРµР¶РґСѓС„Р°Р·РЅРѕРµ РІРѕР»РЅРѕРІРѕРµ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ СѓР·Р»Р°
 	}
 	else
 	{

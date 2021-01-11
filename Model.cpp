@@ -1,4 +1,4 @@
-#include "Model.h"
+п»ї#include "Model.h"
 
 #include <iostream>
 #include <fstream>
@@ -30,53 +30,53 @@ Model::Model(vector<string> data)
 	NodeList.reserve(100);
 	EventList.reserve(20);
 	ResultList.reserve(100);
-	IterationCount.reserve(1000);	//Переписать как простой int array?
+	IterationCount.reserve(1000);	//РџРµСЂРµРїРёСЃР°С‚СЊ РєР°Рє РїСЂРѕСЃС‚РѕР№ int array?
 
 	Load_Data(data);
 }
 
 void Model::Load_Data(vector<string> data)
 {
-	//Переменные для парсинга строк
+	//РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РїР°СЂСЃРёРЅРіР° СЃС‚СЂРѕРє
 	vector<string> line;
 	line.reserve(20);
-	string Parametr, 
-			delimiter;		//Разделитель
-	size_t pos = 0; //Позиция разделителя
+	string Parametr,
+		delimiter;		//Р Р°Р·РґРµР»РёС‚РµР»СЊ
+	size_t pos = 0; //РџРѕР·РёС†РёСЏ СЂР°Р·РґРµР»РёС‚РµР»СЏ
 
 	int i, j, k, BranchSign, BlockSign, BranchCount, BlockCount, PhaseNum;
 
-	this->NodeList.push_back(new Node(0, 0, 0, 3, 0));	//Добавление нулевого узла (земли)
-	this->BranchList.push_back(new Branch());	//Не знаю какой элемент был у Василия Владимировича нулевым, создадим пустой
+	this->NodeList.push_back(new Node(0, 0, 0, 3, 0));	//Р”РѕР±Р°РІР»РµРЅРёРµ РЅСѓР»РµРІРѕРіРѕ СѓР·Р»Р° (Р·РµРјР»Рё)
+	this->BranchList.push_back(new Branch());	//РќРµ Р·РЅР°СЋ РєР°РєРѕР№ СЌР»РµРјРµРЅС‚ Р±С‹Р» Сѓ Р’Р°СЃРёР»РёСЏ Р’Р»Р°РґРёРјРёСЂРѕРІРёС‡Р° РЅСѓР»РµРІС‹Рј, СЃРѕР·РґР°РґРёРј РїСѓСЃС‚РѕР№
 
 	delimiter = ";";
 	for (i = 0; i < data.size(); i++)
 	{
-		line.push_back("");//Костыль, чтобы заполнить нулевой элемент. У Василия Владимировича начинается с 1
-		//Разбиваем строку данных по разделителю ;		TO DO сделать через xml
+		line.push_back("");//РљРѕСЃС‚С‹Р»СЊ, С‡С‚РѕР±С‹ Р·Р°РїРѕР»РЅРёС‚СЊ РЅСѓР»РµРІРѕР№ СЌР»РµРјРµРЅС‚. РЈ Р’Р°СЃРёР»РёСЏ Р’Р»Р°РґРёРјРёСЂРѕРІРёС‡Р° РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1
+		//Р Р°Р·Р±РёРІР°РµРј СЃС‚СЂРѕРєСѓ РґР°РЅРЅС‹С… РїРѕ СЂР°Р·РґРµР»РёС‚РµР»СЋ ;		TO DO СЃРґРµР»Р°С‚СЊ С‡РµСЂРµР· xml
 		while ((pos = data[i].find(delimiter)) != string::npos)
 		{
-			line.push_back( data[i].substr(0, pos) );	//Добавляем лексему в массив
-			data[i].erase(0, pos + 1);			//Удаляем лексему вместе с разделителем
+			line.push_back(data[i].substr(0, pos));	//Р”РѕР±Р°РІР»СЏРµРј Р»РµРєСЃРµРјСѓ РІ РјР°СЃСЃРёРІ
+			data[i].erase(0, pos + 1);			//РЈРґР°Р»СЏРµРј Р»РµРєСЃРµРјСѓ РІРјРµСЃС‚Рµ СЃ СЂР°Р·РґРµР»РёС‚РµР»РµРј
 		}
-		
+
 		if (line.size() != 0)
 		{
 			BranchSign = stoi(line[1]);
-			if (BranchSign == 0)  // Если строка - идентификатор блока
+			if (BranchSign == 0)  // Р•СЃР»Рё СЃС‚СЂРѕРєР° - РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р±Р»РѕРєР°
 			{
 				BlockSign = stoi(line[2]);
 				this->BlockCount++;
 				switch (BlockSign)
 				{
-				case 0:  // ВЛ
-					this->BlockList.push_back(new Block(line, this->BlockCount)); //Добавление блока элементов
+				case 0:  // Р’Р›
+					this->BlockList.push_back(new Block(line, this->BlockCount)); //Р”РѕР±Р°РІР»РµРЅРёРµ Р±Р»РѕРєР° СЌР»РµРјРµРЅС‚РѕРІ
 					break;
-				case 1:  // ВЛ
-					this->BlockList.push_back(new Block(line, this->BlockCount)); //Добавление блока элементов
+				case 1:  // Р’Р›
+					this->BlockList.push_back(new Block(line, this->BlockCount)); //Р”РѕР±Р°РІР»РµРЅРёРµ Р±Р»РѕРєР° СЌР»РµРјРµРЅС‚РѕРІ
 					break;
 				case 2:  // CRG
-					//this->BlockList->Add(new B_trans2(GetString, BlockCount)); //Добавление блока элементов
+					//this->BlockList->Add(new B_trans2(GetString, BlockCount)); //Р”РѕР±Р°РІР»РµРЅРёРµ Р±Р»РѕРєР° СЌР»РµРјРµРЅС‚РѕРІ
 					break;
 				}
 			}
@@ -87,12 +87,12 @@ void Model::Load_Data(vector<string> data)
 
 			switch (BranchSign)
 			{
-				//case 0:  // строка со списком параметров для графика  break;
-			case 1:  // ВЛ
+				//case 0:  // СЃС‚СЂРѕРєР° СЃРѕ СЃРїРёСЃРєРѕРј РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ РіСЂР°С„РёРєР°  break;
+			case 1:  // Р’Р›
 				BranchList.push_back(new Line(this->BranchCount, line));
-				PhaseNum =this->BranchList[this->BranchCount]->PhaseType;
+				PhaseNum = this->BranchList[this->BranchCount]->PhaseType;
 				/*
-				// Mоделирование линии П-ячейками
+				// MРѕРґРµР»РёСЂРѕРІР°РЅРёРµ Р»РёРЅРёРё Рџ-СЏС‡РµР№РєР°РјРё
 				if (this->BranchList[this->BranchCount]->PBayModel)
 				{
 					GetString = PiCircuitData(BranchCount);
@@ -100,7 +100,7 @@ void Model::Load_Data(vector<string> data)
 					MyModel->BranchList->Add(new CRG(BranchCount, true, OldFormatFile, GetString));
 					MyModel->NodeList->Add(new Node(((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->BegingNode, ((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->GetVoltageClass(), MyModel->BranchCount, PhaseNum, MyModel->NodeList->Count - 1));
 
-					for (k = ((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->BegingNode + 1; k <= ((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->EndNode; k++) //по символам в строке
+					for (k = ((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->BegingNode + 1; k <= ((Branch*)MyModel->BranchList->Items[MyModel->BranchCount])->EndNode; k++) //РїРѕ СЃРёРјРІРѕР»Р°Рј РІ СЃС‚СЂРѕРєРµ
 					{
 						MyModel->BranchCount++;
 						BranchCount = MyModel->BranchCount;
@@ -118,37 +118,37 @@ void Model::Load_Data(vector<string> data)
 			case 2:  // CRG
 				//MyModel->BranchList->Add(new CRG(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 3:  // ЭДС
+			case 3:  // Р­Р”РЎ
 				this->BranchList.push_back(new EDS(this->BranchCount, line));
 				break;
 			case 4:  // RL
 				//MyModel->BranchList->Add(new RL(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 5:  // ОПН
+			case 5:  // РћРџРќ
 				//MyModel->BranchList->Add(new OPN(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 6:  // Ист.тока
+			case 6:  // РСЃС‚.С‚РѕРєР°
 				//MyModel->BranchList->Add(new CurSource(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 7:  // Шунт
+			case 7:  // РЁСѓРЅС‚
 				//MyModel->BranchList->Add(new Shunt(BranchCount, true, OldFormatFile, GetString));
 				break;
 			case 8:  // RC
 				//MyModel->BranchList->Add(new RC(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 9:  // Rф
+			case 9:  // RС„
 				//MyModel->BranchList->Add(new Rf(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 10:  // СГ
+			case 10:  // РЎР“
 				//MyModel->BranchList->Add(new Generator(BranchCount, true, OldFormatFile, GetString));
 				break;
-			case 11:  // Преобразователь
+			case 11:  // РџСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЊ
 				//MyModel->BranchList->Add(new Converter(BranchCount, true, OldFormatFile, GetString));
 				break;
 			}
 
-			if (BranchSign != 0)  // Добавление элементов в список элементов блока
-			{                                            //т.к. нумерация блоков начинается с 0
+			if (BranchSign != 0)  // Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРѕРє СЌР»РµРјРµРЅС‚РѕРІ Р±Р»РѕРєР°
+			{                                            //С‚.Рє. РЅСѓРјРµСЂР°С†РёСЏ Р±Р»РѕРєРѕРІ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 0
 				this->BlockList[this->BlockCount - 1]->BlockBranchList.push_back(this->BranchList[this->BranchList.size() - 1]);
 
 				this->CreateNode(BranchSign);
@@ -193,41 +193,41 @@ void Model::FillBranchesListInNode()
 	int BegingIndex, EndIndex, NodeIndex, BranchIndex;
 	bool NextGroup = false;
 
-	for (j = 0; j < BlockList.size(); j++)	//по блокам
+	for (j = 0; j < BlockList.size(); j++)	//РїРѕ Р±Р»РѕРєР°Рј
 	{
 		if (BlockList[j]->BlockCountGroup == 0)
 		{
 			for (i = 0; i < BlockList[j]->BlockNodeList.size(); i++)
 			{
-				if (BlockList[j]->BlockNodeList[i]->External)		//ЗАЧЕМ???
+				if (BlockList[j]->BlockNodeList[i]->External)		//Р—РђР§Р•Рњ???
 				{
 					NodeIndex = BlockList[j]->BlockNodeList[i]->NodeIndex;
-					for (k = 0; k < NodeList[NodeIndex]->BranchesInNode.size(); k++) // по ветвям, подключенным к внешнему узлу
+					for (k = 0; k < NodeList[NodeIndex]->BranchesInNode.size(); k++) // РїРѕ РІРµС‚РІСЏРј, РїРѕРґРєР»СЋС‡РµРЅРЅС‹Рј Рє РІРЅРµС€РЅРµРјСѓ СѓР·Р»Сѓ
 					{
 						BranchIndex = NodeList[NodeIndex]->BranchesInNode[k];
-						if (BranchList[k]->BlockNum - 1 != j)		//ЗАЧЕМ??
+						if (BranchList[k]->BlockNum - 1 != j)		//Р—РђР§Р•Рњ??
 							if (BranchList[BranchIndex]->ElementType == 1)
 								NextGroup = true;
 							else
 								NextGroup = false;
-					} // конец цикла по ветвям, присоединенным к узлу
+					} // РєРѕРЅРµС† С†РёРєР»Р° РїРѕ РІРµС‚РІСЏРј, РїСЂРёСЃРѕРµРґРёРЅРµРЅРЅС‹Рј Рє СѓР·Р»Сѓ
 					BlockList[j]->BlockCountGroup = CountGroupsNum;
 					if (NextGroup)
 					{
 						CountGroupsNum++;
 						NextGroup = false;
 					}
-				} // конец цикла по блокам
+				} // РєРѕРЅРµС† С†РёРєР»Р° РїРѕ Р±Р»РѕРєР°Рј
 
-			for (i = 1; i <= BranchCount; i++) // Заполнение +BranchesInNode
-				if (BranchList[i]->Enabled)
-				{
-					BegingIndex = FindNodeIndex(i, (BranchList[i]->BegingNode));
-					EndIndex = FindNodeIndex(i, BranchList[i]->EndNode);
+				for (i = 1; i <= BranchCount; i++) // Р—Р°РїРѕР»РЅРµРЅРёРµ +BranchesInNode
+					if (BranchList[i]->Enabled)
+					{
+						BegingIndex = FindNodeIndex(i, (BranchList[i]->BegingNode));
+						EndIndex = FindNodeIndex(i, BranchList[i]->EndNode);
 
-					BranchList[i]->BegingNodeIndex = BegingIndex;
-					BranchList[i]->EndNodeIndex = EndIndex;
-				}
+						BranchList[i]->BegingNodeIndex = BegingIndex;
+						BranchList[i]->EndNodeIndex = EndIndex;
+					}
 			}
 		}
 	}
@@ -241,7 +241,7 @@ void Model::FindZ()
 	}
 }
 
-//Основной цикл алгоритма
+//РћСЃРЅРѕРІРЅРѕР№ С†РёРєР» Р°Р»РіРѕСЂРёС‚РјР°
 string Model::FindU()
 {
 
@@ -249,7 +249,7 @@ string Model::FindU()
 	bool NextCount, IsFirstIter;
 	int CountGroup = 0;
 
-	//1 этап. Нахождение первоначального напряжения в узлах
+	//1 СЌС‚Р°Рї. РќР°С…РѕР¶РґРµРЅРёРµ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕРіРѕ РЅР°РїСЂСЏР¶РµРЅРёСЏ РІ СѓР·Р»Р°С…
 	for (i = 1; i < NodeList.size(); i++)
 	{
 		NodeList[i]->FindNodeU();
@@ -257,22 +257,22 @@ string Model::FindU()
 	}
 
 	/*
-	//Подготовительные вычисления в начале расчета и при коммутациях
+	//РџРѕРґРіРѕС‚РѕРІРёС‚РµР»СЊРЅС‹Рµ РІС‹С‡РёСЃР»РµРЅРёСЏ РІ РЅР°С‡Р°Р»Рµ СЂР°СЃС‡РµС‚Р° Рё РїСЂРё РєРѕРјРјСѓС‚Р°С†РёСЏС…
 	for (i = 1; i <= BranchCount; i++)
 		if ((BranchList[i]->Enabled) && ((BranchList[i]->ChangePaseState) || (IterationCount.size() == 0)))
 			switch (BranchList[i]->ElementType)
 			{
-			case 4:  // RL - расчет коэффициентов для аналитического решения
-			case 8:  // RC - расчет коэффициентов для аналитического решения
-			case 9:  // Rф - формирование матрицы проводимостей и коммутационной матрицы
+			case 4:  // RL - СЂР°СЃС‡РµС‚ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
+			case 8:  // RC - СЂР°СЃС‡РµС‚ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
+			case 9:  // RС„ - С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹ РїСЂРѕРІРѕРґРёРјРѕСЃС‚РµР№ Рё РєРѕРјРјСѓС‚Р°С†РёРѕРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
 				BranchList[i]->FillZrab_M();
 				BranchList[i]->ChangePaseState = false;
 				break;
 			}
 	*/
-	
-	//2 этап. Расчет токов через неузловые элементы (с коррекцией суммарного тока в узлах)
-	for (k = 0; k < CountGroupsNum; k++)	//По расчетным группам
+
+	//2 СЌС‚Р°Рї. Р Р°СЃС‡РµС‚ С‚РѕРєРѕРІ С‡РµСЂРµР· РЅРµСѓР·Р»РѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ (СЃ РєРѕСЂСЂРµРєС†РёРµР№ СЃСѓРјРјР°СЂРЅРѕРіРѕ С‚РѕРєР° РІ СѓР·Р»Р°С…)
+	for (k = 0; k < CountGroupsNum; k++)	//РџРѕ СЂР°СЃС‡РµС‚РЅС‹Рј РіСЂСѓРїРїР°Рј
 	{
 		CountGroup++;
 		NextCount = true;
@@ -292,7 +292,7 @@ string Model::FindU()
 
 				if (ItCount > MaxIter)
 				{
-					cout << "Число итераций превысило " << MaxIter << "на " << CurrentStep << " шаге расчета";
+					cout << "Р§РёСЃР»Рѕ РёС‚РµСЂР°С†РёР№ РїСЂРµРІС‹СЃРёР»Рѕ " << MaxIter << "РЅР° " << CurrentStep << " С€Р°РіРµ СЂР°СЃС‡РµС‚Р°";
 					MaxIter += 500;
 				}
 
@@ -300,7 +300,7 @@ string Model::FindU()
 				{
 					if (CountGroup == BlockList[j]->BlockCountGroup)
 					{
-						for (i = 0; i < BlockList[j]->BlockBranchList.size(); i++)  // по ветвям блока
+						for (i = 0; i < BlockList[j]->BlockBranchList.size(); i++)  // РїРѕ РІРµС‚РІСЏРј Р±Р»РѕРєР°
 						{
 							BegingNodeIndex = BlockList[j]->BlockBranchList[i]->BegingNodeIndex;
 							EndNodeIndex = BlockList[j]->BlockBranchList[i]->EndNodeIndex;
@@ -308,38 +308,38 @@ string Model::FindU()
 							{
 								switch (BlockList[j]->BlockBranchList[i]->ElementType)
 								{
-									case 4:  // RL
-										//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
-											break;
-									case 5:  // ОПН
-										//if (BlockList[j]->BlockBranchList[i]->OPNType != 2)
-										//	BlockList[j]->BlockBranchList[i]->FindIFormU0(IsFirstIter);
-										//else
-										//	BlockList[j]->BlockBranchList[i]->FindIFormU0M(IsFirstIter);
-										break;
-									case 6:  // J(t)
-										//BlockList[j]->BlockBranchList[i]->FindIForm(IsFirstIter);
-										break;
-									case 7:  // Шунт
-										//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
-										break;
-									case 8:  // RC
-										//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
-										break;
-									case 9:  // Rф
-										//BlockList[j]->BlockBranchList[i]->FindIMatrix(); //FindIAB0(false);
-										break;
-									case 10:  // СГ
-										//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
-										break;
-									case 11:  // Преобразователь
-										//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
-										break;
+								case 4:  // RL
+									//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
+									break;
+								case 5:  // РћРџРќ
+									//if (BlockList[j]->BlockBranchList[i]->OPNType != 2)
+									//	BlockList[j]->BlockBranchList[i]->FindIFormU0(IsFirstIter);
+									//else
+									//	BlockList[j]->BlockBranchList[i]->FindIFormU0M(IsFirstIter);
+									break;
+								case 6:  // J(t)
+									//BlockList[j]->BlockBranchList[i]->FindIForm(IsFirstIter);
+									break;
+								case 7:  // РЁСѓРЅС‚
+									//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
+									break;
+								case 8:  // RC
+									//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
+									break;
+								case 9:  // RС„
+									//BlockList[j]->BlockBranchList[i]->FindIMatrix(); //FindIAB0(false);
+									break;
+								case 10:  // РЎР“
+									//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
+									break;
+								case 11:  // РџСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЊ
+									//BlockList[j]->BlockBranchList[i]->FindIAB0(IsFirstIter);
+									break;
 								}
 							}
 						}
-						//3------Вычисление напряжения в узлах, проверка разницы напряджения на итерациях.
-						for (i = 0; i < BlockList[j]->BlockNodeList.size(); i++)    // по узлам блока
+						//3------Р’С‹С‡РёСЃР»РµРЅРёРµ РЅР°РїСЂСЏР¶РµРЅРёСЏ РІ СѓР·Р»Р°С…, РїСЂРѕРІРµСЂРєР° СЂР°Р·РЅРёС†С‹ РЅР°РїСЂСЏРґР¶РµРЅРёСЏ РЅР° РёС‚РµСЂР°С†РёСЏС….
+						for (i = 0; i < BlockList[j]->BlockNodeList.size(); i++)    // РїРѕ СѓР·Р»Р°Рј Р±Р»РѕРєР°
 						{
 							BlockList[j]->BlockNodeList[i]->NodeNextCount = BlockList[j]->BlockNodeList[i]->UCorrection();
 							if (BlockList[j]->BlockNodeList[i]->NodeNextCount)
@@ -351,19 +351,19 @@ string Model::FindU()
 		}
 		catch (...)
 		{
-			return("Расходимость вычислительного процесса");
+			return("Р Р°СЃС…РѕРґРёРјРѕСЃС‚СЊ РІС‹С‡РёСЃР»РёС‚РµР»СЊРЅРѕРіРѕ РїСЂРѕС†РµСЃСЃР°");
 		}
 	}
 
 	IterationCount.push_back(ItCount);
 	/*
-	//3 этап. Проверка пробоя искрового присоединения реактора или разрядника
+	//3 СЌС‚Р°Рї. РџСЂРѕРІРµСЂРєР° РїСЂРѕР±РѕСЏ РёСЃРєСЂРѕРІРѕРіРѕ РїСЂРёСЃРѕРµРґРёРЅРµРЅРёСЏ СЂРµР°РєС‚РѕСЂР° РёР»Рё СЂР°Р·СЂСЏРґРЅРёРєР°
 	for (i = 1; i <= BranchCount; i++)
 		if (((((Branch*)BranchList->Items[i])->ElementType == 5) && (((OPN*)BranchList->Items[i])->OPNType == 2)) ||
 			((((Branch*)BranchList->Items[i])->ElementType == 4) && (((RL*)BranchList->Items[i])->RLType == 3)))
 			((Branch*)BranchList->Items[i])->CheckBreakdown();
 	*/
-	//4 этап. "Продергивание" волны
+	//4 СЌС‚Р°Рї. "РџСЂРѕРґРµСЂРіРёРІР°РЅРёРµ" РІРѕР»РЅС‹
 	for (i = 1; i <= BranchCount; i++)
 	{
 		if ((BranchList[i]->ElementType == 1) && !(BranchList[i]->Virtual))
@@ -372,8 +372,8 @@ string Model::FindU()
 		}
 	}
 
-	//5 этап. Запись результата расчета на шаге в массивы.
-	
+	//5 СЌС‚Р°Рї. Р—Р°РїРёСЃСЊ СЂРµР·СѓР»СЊС‚Р°С‚Р° СЂР°СЃС‡РµС‚Р° РЅР° С€Р°РіРµ РІ РјР°СЃСЃРёРІС‹.
+
 	if (CurrentStep == ResStep)
 	{
 		ResStep += ResMultiple;
@@ -393,11 +393,11 @@ void Model::SortEventsList(int SwitchEvent)
 bool Model::CheckModel()
 {
 	/*TO DO*/
-	/*Проверка связности сети*/
+	/*РџСЂРѕРІРµСЂРєР° СЃРІСЏР·РЅРѕСЃС‚Рё СЃРµС‚Рё*/
 	return true;
 }
 
-//Создание узлов
+//РЎРѕР·РґР°РЅРёРµ СѓР·Р»РѕРІ
 void Model::CreateNode(int BranchSign)
 {
 	bool CreateNewNode1 = true;
@@ -424,7 +424,7 @@ void Model::CreateNode(int BranchSign)
 
 		if (CreateNewNode1)
 		{
-			NodeList.push_back(new Node(BranchList[BranchList.size() - 1]->BegingNode, // NodeList->Count т.к. узла еще не создано
+			NodeList.push_back(new Node(BranchList[BranchList.size() - 1]->BegingNode, // NodeList->Count С‚.Рє. СѓР·Р»Р° РµС‰Рµ РЅРµ СЃРѕР·РґР°РЅРѕ
 				BranchList[BranchList.size() - 1]->GetVoltageClass(), BranchList.size() - 1, 3, NodeList.size()));
 			BlockList[BlockCount - 1]->BlockNodeList.push_back(NodeList[NodeList.size() - 1]);
 
@@ -432,13 +432,13 @@ void Model::CreateNode(int BranchSign)
 			NodeList[NodeList.size() - 1]->BranchesInNode.push_back(BranchList.size() - 1);
 
 			for (j = 0; j < BlockList[BlockCount - 1]->ExtBlockNode.size(); j++)
-				if (stoi(BlockList[BlockCount - 1]->ExtBlockNode[j]) == NodeList[NodeList.size() - 1]->NodeNum)		//Почему ExtBlockNode типа string???? TO DO
+				if (stoi(BlockList[BlockCount - 1]->ExtBlockNode[j]) == NodeList[NodeList.size() - 1]->NodeNum)		//РџРѕС‡РµРјСѓ ExtBlockNode С‚РёРїР° string???? TO DO
 					NodeList[NodeList.size() - 1]->External = true;
 		}
 
 		if ((CreateNewNode2) && (BranchSign == 1))
 		{
-			NodeList.push_back(new Node(BranchList[BranchList.size() - 1]->EndNode, // NodeList->Count т.к. узла еще не создано
+			NodeList.push_back(new Node(BranchList[BranchList.size() - 1]->EndNode, // NodeList->Count С‚.Рє. СѓР·Р»Р° РµС‰Рµ РЅРµ СЃРѕР·РґР°РЅРѕ
 				BranchList[BranchList.size() - 1]->GetVoltageClass(), BranchList.size() - 1, 3, NodeList.size()));
 			BlockList[BlockCount - 1]->BlockNodeList.push_back(NodeList[NodeList.size() - 1]);
 
@@ -446,12 +446,12 @@ void Model::CreateNode(int BranchSign)
 			NodeList[NodeList.size() - 1]->BranchesInNode.push_back(BranchList.size() - 1);
 		}
 	}
-	//Вычисление отношеня номинальных напряжений ветви
+	//Р’С‹С‡РёСЃР»РµРЅРёРµ РѕС‚РЅРѕС€РµРЅСЏ РЅРѕРјРёРЅР°Р»СЊРЅС‹С… РЅР°РїСЂСЏР¶РµРЅРёР№ РІРµС‚РІРё
 	if ((NodeList[BranchList[BranchList.size() - 1]->BegingNodeIndex]->Ubase != 0) && (NodeList[BranchList[BranchList.size() - 1]->EndNodeIndex]->Ubase != 0))
 		BranchList[BranchCount]->UnomRato = NodeList[BranchList[BranchList.size() - 1]->BegingNodeIndex]->Ubase / NodeList[BranchList[BranchList.size() - 1]->EndNodeIndex]->Ubase;
 }
 
-//Вывод информации о ходе расчета
+//Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ С…РѕРґРµ СЂР°СЃС‡РµС‚Р°
 string Model::FillResult()
 {
 	int j, i, BranchN;
@@ -462,7 +462,7 @@ string Model::FillResult()
 
 	for (j = 0; j < ResultList.size(); j++)
 	{
-		try  // проверка исключения bad_alloc
+		try  // РїСЂРѕРІРµСЂРєР° РёСЃРєР»СЋС‡РµРЅРёСЏ bad_alloc
 		{
 			switch (ResultList[j]->ParametrCode)
 			{
@@ -475,49 +475,49 @@ string Model::FillResult()
 					P.push_back(BranchList[ResultList[j]->ParametrOwner]->I[i]);
 				Pabc = AB0_abc(P);
 				break;
-			/*case 3:  //V
-				for (i = 0; i < 3; i++)
-					Pabc[i] = ((Line*BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->BegingWave[i];
-				//AB0_abc(P, Pabc);
-				break;
-			case 4:  //R (OPN)
-				((Result*)ResultList->Items[j])->InternalItCount = ((Branch*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->InternalItCount;
-				for (i = 0; i < 3; i++)
-					Pabc[i] = ((OPN*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->R[i];
-				break;
-			case 5:  //J
-				for (i = 0; i < 3; i++)
-					Pabc[i] = ((CurSource*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->Jtabc[i];
-				break;
-			case 6:  //Ф
-				for (i = 0; i < 3; i++)
-					Pabc[i] = ((Shunt*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->Flowabc[i];
-				break;
-			case 7:  //Uв = U1-U2 падение напряжения на ветви
-				BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
-				((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->BegingNodeIndex])->GetU(P);
-				((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->EndNodeIndex])->GetU(Pabc);
+				/*case 3:  //V
+					for (i = 0; i < 3; i++)
+						Pabc[i] = ((Line*BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->BegingWave[i];
+					//AB0_abc(P, Pabc);
+					break;
+				case 4:  //R (OPN)
+					((Result*)ResultList->Items[j])->InternalItCount = ((Branch*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->InternalItCount;
+					for (i = 0; i < 3; i++)
+						Pabc[i] = ((OPN*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->R[i];
+					break;
+				case 5:  //J
+					for (i = 0; i < 3; i++)
+						Pabc[i] = ((CurSource*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->Jtabc[i];
+					break;
+				case 6:  //Р¤
+					for (i = 0; i < 3; i++)
+						Pabc[i] = ((Shunt*)BranchList->Items[((Result*)ResultList->Items[j])->ParametrOwner])->Flowabc[i];
+					break;
+				case 7:  //UРІ = U1-U2 РїР°РґРµРЅРёРµ РЅР°РїСЂСЏР¶РµРЅРёСЏ РЅР° РІРµС‚РІРё
+					BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
+					((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->BegingNodeIndex])->GetU(P);
+					((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->EndNodeIndex])->GetU(Pabc);
 
-				for (i = 0; i < 3; i++)
-					P[i] = P[i] - Pabc[i];
-				AB0_abc(P, Pabc);
-				break;
-			case 8:  //Iн - ток в начале линии Iн =(2Vн-Uн)/Zв
-				BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
-				((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->BegingNodeIndex])->GetU(P);
-				for (i = 0; i < 3; i++)
-					P[i] = (P[i] - ((Line*)BranchList->Items[BranchN])->BegingWave[i])
-					* ((Branch*)BranchList->Items[BranchN])->Grab[i];
-				AB0_abc(P, Pabc);
-				break;
-			case 9:  //Iк - ток в конце линии Iк =(2Vк-Uк)/Zв
-				BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
-				((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->EndNodeIndex])->GetU(P);
-				for (i = 0; i < 3; i++)
-					P[i] = (P[i] - ((Line*)BranchList->Items[BranchN])->EndWave[i])
-					* ((Branch*)BranchList->Items[BranchN])->Grab[i];
-				AB0_abc(P, Pabc);
-				break;*/
+					for (i = 0; i < 3; i++)
+						P[i] = P[i] - Pabc[i];
+					AB0_abc(P, Pabc);
+					break;
+				case 8:  //IРЅ - С‚РѕРє РІ РЅР°С‡Р°Р»Рµ Р»РёРЅРёРё IРЅ =(2VРЅ-UРЅ)/ZРІ
+					BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
+					((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->BegingNodeIndex])->GetU(P);
+					for (i = 0; i < 3; i++)
+						P[i] = (P[i] - ((Line*)BranchList->Items[BranchN])->BegingWave[i])
+						* ((Branch*)BranchList->Items[BranchN])->Grab[i];
+					AB0_abc(P, Pabc);
+					break;
+				case 9:  //IРє - С‚РѕРє РІ РєРѕРЅС†Рµ Р»РёРЅРёРё IРє =(2VРє-UРє)/ZРІ
+					BranchN = ((Result*)ResultList->Items[j])->ParametrOwner;
+					((Node*)NodeList->Items[((Branch*)BranchList->Items[BranchN])->EndNodeIndex])->GetU(P);
+					for (i = 0; i < 3; i++)
+						P[i] = (P[i] - ((Line*)BranchList->Items[BranchN])->EndWave[i])
+						* ((Branch*)BranchList->Items[BranchN])->Grab[i];
+					AB0_abc(P, Pabc);
+					break;*/
 			}
 			/*
 			for (i = 0; i < 3; i++)
@@ -529,7 +529,7 @@ string Model::FillResult()
 				}
 				NewFloatCount++;
 				NewFloatRef = new float;
-				*NewFloatRef = Pabc[i];  // Out of memory > 400 мСек (> 200 при продолжении расчета)
+				*NewFloatRef = Pabc[i];  // Out of memory > 400 РјРЎРµРє (> 200 РїСЂРё РїСЂРѕРґРѕР»Р¶РµРЅРёРё СЂР°СЃС‡РµС‚Р°)
 				((TList*)((Result*)ResultList->Items[j])->DataList->Items[i])->Add(NewFloatRef);
 			}*/
 			ResultList[j]->DataList[0].push_back(Pabc[0]);
@@ -538,7 +538,7 @@ string Model::FillResult()
 		}
 		catch (... /*std::bad_alloc*/)
 		{
-			//ErrText = "Переполнение памяти при записи параметра " + ((Result*)ResultList->Items[j])->ParametrName + " на шаге " + IntToStr(CurrentStep);
+			//ErrText = "РџРµСЂРµРїРѕР»РЅРµРЅРёРµ РїР°РјСЏС‚Рё РїСЂРё Р·Р°РїРёСЃРё РїР°СЂР°РјРµС‚СЂР° " + ((Result*)ResultList->Items[j])->ParametrName + " РЅР° С€Р°РіРµ " + IntToStr(CurrentStep);
 			//cout << ErrText.c_str();
 			//Warning( ErrText, 1);
 			//return(ErrText);

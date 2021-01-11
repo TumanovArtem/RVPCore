@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <string>
 #include <vector>
 
@@ -6,20 +6,20 @@ using namespace std;
 class Result
 {
 public:
-	string  ParametrName;  // имя параметра
-	string  ParametrType;  // тип параметра
-	int  ParametrCode;         // код параметра (1-U,2-I,3-V)
-	int  ParametrOwner;        // номер верви или узла
-	int  InternalItCount;      // Кол-во внутренних итераций
+	string  ParametrName;  // РёРјСЏ РїР°СЂР°РјРµС‚СЂР°
+	string  ParametrType;  // С‚РёРї РїР°СЂР°РјРµС‚СЂР°
+	int  ParametrCode;         // РєРѕРґ РїР°СЂР°РјРµС‚СЂР° (1-U,2-I,3-V)
+	int  ParametrOwner;        // РЅРѕРјРµСЂ РІРµСЂРІРё РёР»Рё СѓР·Р»Р°
+	int  InternalItCount;      // РљРѕР»-РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёС… РёС‚РµСЂР°С†РёР№
 	int  Ifactor;
-	float BaseParametr;       // базисный ток или напряжение
-	float Max;                // максимальное значение параметра
-	float Min;                // минимальное значение параметра
+	float BaseParametr;       // Р±Р°Р·РёСЃРЅС‹Р№ С‚РѕРє РёР»Рё РЅР°РїСЂСЏР¶РµРЅРёРµ
+	float Max;                // РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїР°СЂР°РјРµС‚СЂР°
+	float Min;                // РјРёРЅРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїР°СЂР°РјРµС‚СЂР°
 
-	vector<vector<double>> DataList;   //Данные 3-x каналов
-	vector<double> aDataList;  //Данные канала альфа
-	vector<double> bDataList;  //Данные канала бета
-	vector<double> cDataList;  //Данные канала 0
+	vector<vector<double>> DataList;   //Р”Р°РЅРЅС‹Рµ 3-x РєР°РЅР°Р»РѕРІ
+	vector<double> aDataList;  //Р”Р°РЅРЅС‹Рµ РєР°РЅР°Р»Р° Р°Р»СЊС„Р°
+	vector<double> bDataList;  //Р”Р°РЅРЅС‹Рµ РєР°РЅР°Р»Р° Р±РµС‚Р°
+	vector<double> cDataList;  //Р”Р°РЅРЅС‹Рµ РєР°РЅР°Р»Р° 0
 
 	Result();
 	Result(string);
@@ -27,7 +27,7 @@ public:
 
 	vector<double> GetParametr(int);
 
-	//Поиск максимального и минимального значения параметра
+	//РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Рё РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РїР°СЂР°РјРµС‚СЂР°
 	void FindMaxMin();
 
 };

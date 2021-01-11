@@ -1,4 +1,4 @@
-#include "Line.h"
+п»ї#include "Line.h"
 #include "Model.h"
 
 extern Model* MyModel;
@@ -6,12 +6,12 @@ extern double Frequency;
 extern double Omega;
 extern vector<double> abc_AB0(vector<double> abc);
 extern vector<double> AB0_abc(vector<double> AB0);
-//Конструктор 1
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 1
 Line::Line()
 {
 }
 
-//Конструктор 2
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ 2
 Line::Line(int BranchCount, vector<string> DataString)
 {
 	BranchIndex = BranchCount;
@@ -51,16 +51,16 @@ Line::Line(int BranchCount, vector<string> DataString)
 		ChannelCreate();
 }
 
-//Деструктор
+//Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 Line::~Line()
 {
 	ChannelList.clear();
 	ArgumentList.clear();
 }
 
-//Чтение данных из файла
+//Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
 void Line::FillData(vector<string> line)
-	{
+{
 	if (line[2] == "0") Enabled = false;
 	BranchName = line[3];
 	BegingNode = stoi(line[4]);
@@ -68,7 +68,7 @@ void Line::FillData(vector<string> line)
 	VoltageClass = stod(line[6]);
 	Length = stod(line[7]);
 	L = stod(line[8]);
-	L0 = stod(line[9]); 
+	L0 = stod(line[9]);
 	C = stod(line[10]);
 	C0 = stod(line[11]);
 	R = stod(line[12]);
@@ -82,7 +82,7 @@ void Line::FillData(vector<string> line)
 		SingleBay = true;
 	else
 		SingleBay = false;
-	/*Ошибка out of range. Не нужный параметр?
+	/*РћС€РёР±РєР° out of range. РќРµ РЅСѓР¶РЅС‹Р№ РїР°СЂР°РјРµС‚СЂ?
 	if (line[19] == "1")
 		PBayModel = true;
 	else
@@ -99,14 +99,14 @@ void Line::FillData(vector<string> line)
 	//FillArgumentList();
 }
 
-// Создание каналов прямой обратной и нулевой последовательности
+// РЎРѕР·РґР°РЅРёРµ РєР°РЅР°Р»РѕРІ РїСЂСЏРјРѕР№ РѕР±СЂР°С‚РЅРѕР№ Рё РЅСѓР»РµРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
 void Line::ChannelCreate()
-{ // нулевая - 1,2,3 фазы; прямая - 2,3 фазы; обратная - 3 фазы;
+{ // РЅСѓР»РµРІР°СЏ - 1,2,3 С„Р°Р·С‹; РїСЂСЏРјР°СЏ - 2,3 С„Р°Р·С‹; РѕР±СЂР°С‚РЅР°СЏ - 3 С„Р°Р·С‹;
 	for (i = 0; i < PhaseType; i++)
 		ChannelList.push_back(new Channel(i));
 }
 //---------------------------------------------------------------------------
-// Функция вычисления составляющих для определения напряжения в узле.
+// Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃРѕСЃС‚Р°РІР»СЏСЋС‰РёС… РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ РІ СѓР·Р»Рµ.
 void Line::FindNodeI(int NodeIndex, double J[3])
 {
 	bool NodeBeging;
@@ -124,11 +124,11 @@ void Line::FindNodeI(int NodeIndex, double J[3])
 			EndWave[i] = Urab[i];
 
 		J[i] = Urab[i] * Grab[i];
-		//J[i] = 2*((Channel*)ChannelList->Items[i])->GetV(NodeBeging) * Grab[i];   // J = 2V/Zв
+		//J[i] = 2*((Channel*)ChannelList->Items[i])->GetV(NodeBeging) * Grab[i];   // J = 2V/ZРІ
 	}
 }
 //---------------------------------------------------------------------------
-// Функция передачи волнового сопротивления узла.
+// Р¤СѓРЅРєС†РёСЏ РїРµСЂРµРґР°С‡Рё РІРѕР»РЅРѕРІРѕРіРѕ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ СѓР·Р»Р°.
 void Line::GetBranchG(double G[3])
 {
 	Zrab[1] = WaveImpendance;
@@ -137,12 +137,12 @@ void Line::GetBranchG(double G[3])
 
 	for (i = 0; i < 3; i++)
 	{
-		Grab[i] = 1 / Zrab[i]; // в случае узловых элементов Zrab = Zв, Grab = Gв
+		Grab[i] = 1 / Zrab[i]; // РІ СЃР»СѓС‡Р°Рµ СѓР·Р»РѕРІС‹С… СЌР»РµРјРµРЅС‚РѕРІ Zrab = ZРІ, Grab = GРІ
 		G[i] = Grab[i];
 	}
 }
 //---------------------------------------------------------------------------
-// Запись напряжения узла в канал и "продергивание" волны в канале.
+// Р—Р°РїРёСЃСЊ РЅР°РїСЂСЏР¶РµРЅРёСЏ СѓР·Р»Р° РІ РєР°РЅР°Р» Рё "РїСЂРѕРґРµСЂРіРёРІР°РЅРёРµ" РІРѕР»РЅС‹ РІ РєР°РЅР°Р»Рµ.
 void Line::WaveMove()
 {
 	vector<double> Ubegin;
@@ -155,14 +155,14 @@ void Line::WaveMove()
 		ChannelList[i]->ChannelWaveMove(Ubegin[i], Uend[i]);
 }
 //---------------------------------------------------------------------------
-// Вывод волны на график
+// Р’С‹РІРѕРґ РІРѕР»РЅС‹ РЅР° РіСЂР°С„РёРє
 void Line::GetBranchV(double V[3])
 {
 	for (i = 0; i < ChannelList.size(); i++)
 		V[i] = ChannelList[i]->GetVForGraf();
 }
 //---------------------------------------------------------------------------
-//Начальные условия (Заполнение каналов начальными значениями волн)
+//РќР°С‡Р°Р»СЊРЅС‹Рµ СѓСЃР»РѕРІРёСЏ (Р—Р°РїРѕР»РЅРµРЅРёРµ РєР°РЅР°Р»РѕРІ РЅР°С‡Р°Р»СЊРЅС‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё РІРѕР»РЅ)
 void Line::InitialConditions(bool FirstFill)
 {
 	vector<double> U0;
@@ -185,7 +185,7 @@ void Line::InitialConditions(bool FirstFill)
 	{
 		for (i = 0; i < ChannelList.size(); i++)
 			ChannelList[i]->ChannelClear();
-		FirstFill = true; // Перезаполнение каналов линии
+		FirstFill = true; // РџРµСЂРµР·Р°РїРѕР»РЅРµРЅРёРµ РєР°РЅР°Р»РѕРІ Р»РёРЅРёРё
 
 		WaveLength = NewWaveLength;
 		WaveLength0 = 360 * Frequency * Length * sqrt(L0 * C0) / 1000000;
@@ -194,13 +194,13 @@ void Line::InitialConditions(bool FirstFill)
 
 	for (i = 0; i < ChannelList.size(); i++)
 	{
-		if (ChannelList[i]->ChannelType == 0)  // канал нулевой последовательности
+		if (ChannelList[i]->ChannelType == 0)  // РєР°РЅР°Р» РЅСѓР»РµРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
 			ChannelList[i]->StepsInWaveMove(WaveLength0, R0, L0);
-		else   // канал прямой и обратной последовательности
+		else   // РєР°РЅР°Р» РїСЂСЏРјРѕР№ Рё РѕР±СЂР°С‚РЅРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
 			ChannelList[i]->StepsInWaveMove(WaveLength, R, L);
 	}
 
-	// Запись начальных условий
+	// Р—Р°РїРёСЃСЊ РЅР°С‡Р°Р»СЊРЅС‹С… СѓСЃР»РѕРІРёР№
 	if ((InitVoltage[1] != 0) || (InitVoltage[2] != 0) || (InitVoltage[0] != 0))
 	{
 		for (i = 0; i < 3; i++)
@@ -231,7 +231,7 @@ void Line::InitialConditions(bool FirstFill)
 			ChannelList[i]->NextFillVList(U0[i]);
 }
 //---------------------------------------------------------------------------
-//Передача значения узлового напряжения
+//РџРµСЂРµРґР°С‡Р° Р·РЅР°С‡РµРЅРёСЏ СѓР·Р»РѕРІРѕРіРѕ РЅР°РїСЂСЏР¶РµРЅРёСЏ
 double Line::GetVoltageClass()
 {
 	return VoltageClass;
